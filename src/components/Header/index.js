@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,17 +6,31 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from "../../store/auth/asyncThunks"
+import { getAllBasketDevices, getBasket } from "../../store/shop/asyncThunks"
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
+	const dispatch = useDispatch();
 	const [anchorElNav, setAnchorElNav] = useState();
 	const [anchorElUser, setAnchorElUser] = useState();
+	const isAuth = useSelector(state => state.auth.isAuth);
+	const user = useSelector(state => state.auth.user);
+	const basketDevices = useSelector(state => state.shop.basketDevices)
+
+	useEffect(() => {
+		// dispatch(getAllBasketDevices(user?.basket.id));
+		dispatch(getBasket(user?.basket.id))
+	}, [user])
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -32,6 +46,15 @@ const Header = () => {
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
 	};
+
+	const StyledBadge = styled(Badge)(({ theme }) => ({
+		'& .MuiBadge-badge': {
+			right: -3,
+			top: 13,
+			border: `2px solid ${theme.palette.background.paper}`,
+			padding: '0 4px',
+		},
+	}));
 
 	return (
 		<AppBar position="static">
@@ -78,12 +101,21 @@ const Header = () => {
 							<MenuItem onClick={handleCloseNavMenu}>
 								<Link style={{textDecoration: "none", color: "#fff"}} to="/">Home</Link>
 							</MenuItem>
-							<MenuItem onClick={handleCloseNavMenu}>
-								<Link style={{textDecoration: "none", color: "#fff"}} to="/login">Login</Link>
-							</MenuItem>
-							<MenuItem onClick={handleCloseNavMenu}>
-								<Link style={{textDecoration: "none", color: "#fff"}} to="/registration">Registration</Link>
-							</MenuItem>
+							{isAuth ? (
+								<MenuItem onClick={() => dispatch(logout())}>
+									Logout
+								</MenuItem>
+							) : (
+								<>
+									<MenuItem onClick={handleCloseNavMenu}>
+										<Link style={{textDecoration: "none", color: "#000"}} to="/login">Login</Link>
+									</MenuItem>
+									<MenuItem onClick={handleCloseNavMenu}>
+										<Link style={{textDecoration: "none", color: "#000"}} to="/registration">Registration</Link>
+									</MenuItem>
+								</>
+							)}
+
 						</Menu>
 					</Box>
 					<Typography
@@ -96,17 +128,32 @@ const Header = () => {
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						<MenuItem onClick={handleCloseNavMenu}>
-							<Link style={{textDecoration: "none", color: "#fff"}} to="/">Home</Link>
+							<Link style={{textDecoration: "none", color: "#fff"}} to="/">Shop</Link>
 						</MenuItem>
-						<MenuItem onClick={handleCloseNavMenu}>
-							<Link style={{textDecoration: "none", color: "#fff"}} to="/login">Login</Link>
-						</MenuItem>
-						<MenuItem onClick={handleCloseNavMenu}>
-							<Link style={{textDecoration: "none", color: "#fff"}} to="/registration">Registration</Link>
-						</MenuItem>
+						{isAuth ? (
+							<MenuItem onClick={() => dispatch(logout())}>
+								Logout
+							</MenuItem>
+						) : (
+							<>
+								<MenuItem onClick={handleCloseNavMenu}>
+									<Link style={{textDecoration: "none", color: "#fff"}} to="/login">Login</Link>
+								</MenuItem>
+								<MenuItem onClick={handleCloseNavMenu}>
+									<Link style={{textDecoration: "none", color: "#fff"}} to="/registration">Registration</Link>
+								</MenuItem>
+							</>
+						)}
 					</Box>
 
 					<Box sx={{ flexGrow: 0 }}>
+						<Link to='/cart'>
+							<IconButton style={{marginRight: "20px"}} aria-label="cart">
+								<StyledBadge badgeContent={basketDevices?.length} color="secondary">
+									<ShoppingCartIcon />
+								</StyledBadge>
+							</IconButton>
+						</Link>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -128,11 +175,21 @@ const Header = () => {
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
+							{ user?.role === "ADMIN" &&
+								<MenuItem onClick={handleCloseUserMenu}>
+									<Link style={{textDecoration: "none", color: "#000"}} to="/admin">
+										<Typography textAlign="center">Admin dashboard</Typography>
+									</Link>
 								</MenuItem>
-							))}
+							}
+							<MenuItem onClick={handleCloseUserMenu}>
+								<Link style={{textDecoration: "none", color: "#000"}} to="/account">
+									<Typography textAlign="center">Account</Typography>
+								</Link>
+							</MenuItem>
+							<MenuItem onClick={handleCloseUserMenu}>
+								<Typography onClick={() => dispatch(logout())} textAlign="center">Logout</Typography>
+							</MenuItem>
 						</Menu>
 					</Box>
 				</Toolbar>
