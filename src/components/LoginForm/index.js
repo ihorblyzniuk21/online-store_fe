@@ -12,16 +12,13 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useFormik } from "formik"
 import { loginValidationSchema } from "../../services/validations"
-import { login, register } from "../../store/auth/asyncThunks"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
+import { login } from "../../store/auth/asyncThunks"
 
 const theme = createTheme();
 
 const LoginForm = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const errMessage = useSelector(state => state.auth.errorMessage);
 
 	const formik = useFormik({
 		initialValues: {

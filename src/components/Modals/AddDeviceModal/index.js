@@ -21,16 +21,8 @@ const AddDeviceModal = () => {
 	const types = useSelector(state => state.shop.types);
 	const brands = useSelector(state => state.shop.brands);
 	const [img, setImg] = useState("");
-	const isShopLoading = useSelector(state => state.shop.isShopLoading);
 
 	const [info, setInfo] = useState([]);
-	console.log("info", info)
-	// (() => {
-	// 	for (let i = 1; i <= infoCount; i++) {
-	// 		arr.push(i);
-	// 	}
-	// })()
-
 
 	useEffect(() => {
 		(async () => {

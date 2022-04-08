@@ -80,5 +80,9 @@ export const api = {
 	getAllBasketDevices: async (body) => {
 		const response = await apiClient.get('api/basket/basket-device', body);
 		return response;
+	},
+	deleteBasketDevice: async (id) => {
+		const response = await apiClient.delete(`api/basket/basket-device?id=${id}`);
+		return response;
 	}
 }

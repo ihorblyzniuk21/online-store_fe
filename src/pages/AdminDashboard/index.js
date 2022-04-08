@@ -1,5 +1,4 @@
-import { Box, Button, Collapse, Container, Typography } from "@mui/material"
-import { useState } from "react"
+import { Button, Container, Typography } from "@mui/material"
 import { Link, Outlet } from "react-router-dom"
 
 const AdminDashboard = () => {

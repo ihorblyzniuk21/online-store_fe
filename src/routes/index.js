@@ -8,9 +8,17 @@ import AddBrandModal from "../components/Modals/AddBrandModal"
 import AddDeviceModal from "../components/Modals/AddDeviceModal"
 import DevicePage from "../pages/DevicePage"
 import ShoppingCart from "../pages/ShoppingCart"
+import { useEffect } from "react"
+import { getBasket } from "../store/shop/asyncThunks"
+import { useDispatch } from "react-redux"
 
 const AppRoutes = ({user}) => {
-	console.log(user?.role);
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(getBasket(user?.basket.id))
+	}, [user])
+
 	return (
 		<Routes>
 			<Route path="/" exact element={<HomePage/>}/>

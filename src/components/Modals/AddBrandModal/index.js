@@ -3,17 +3,16 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogContentText,
 	DialogTitle,
 	TextField,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useFormik } from "formik"
 import { typeBrandValidationSchema } from "../../../services/validations"
-import { addBrand, addType, getAllBrands, getAllTypes } from "../../../store/shop/asyncThunks"
+import { addBrand, getAllBrands } from "../../../store/shop/asyncThunks"
 
 const AddBrandModal = () => {
 	const navigate = useNavigate();

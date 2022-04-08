@@ -61,17 +61,6 @@ export const getUsers = createAsyncThunk(
 		}
 	}
 )
-// export const refresh = createAsyncThunk(
-// 	"auth/refresh",
-// 	async (data,{rejectWithValue}) => {
-// 		try {
-// 			const response = await api.refresh();
-// 			return response;
-// 		} catch (e) {
-// 			return rejectWithValue(e);
-// 		}
-// 	}
-// )
 
 export const checkAuth = createAsyncThunk(
 	"auth/checkAuth",

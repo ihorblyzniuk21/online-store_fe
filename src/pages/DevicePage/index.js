@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { addBasketDevice, getOneDevice } from "../../store/shop/asyncThunks"
+import { addBasketDevice, getBasket, getOneDevice } from "../../store/shop/asyncThunks"
 import {
 	Button,
 	Container,
@@ -31,6 +31,7 @@ const DevicePage = () => {
 			deviceId: device.id
 		}
 		await dispatch(addBasketDevice(data))
+		await dispatch(getBasket(user.id))
 	}
 
 	return (

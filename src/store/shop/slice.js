@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllBasketDevices, getAllBrands, getAllDevices, getAllTypes, getBasket, getOneDevice } from "./asyncThunks"
+import {
+	createBasketDevicesArray,
+	getAllBasketDevices,
+	getAllBrands,
+	getAllDevices,
+	getAllTypes,
+	getBasket,
+	getOneDevice,
+} from "./asyncThunks"
 
 const slice = createSlice({
 	name: "shop",
@@ -10,18 +18,12 @@ const slice = createSlice({
 		types: [],
 		brands: [],
 		basket: {},
+		basketDevicesId: [],
 		basketDevices: [],
 		isShopLoading: false,
-		errorMessage: null,
-		infoCount: 0
+		errorMessage: null
 	},
 	reducers: {
-		addInfoCount(state, action) {
-			state.infoCount = state.infoCount + 1;
-		},
-		removeInfoCount(state, action) {
-			state.infoCount = state.infoCount + 1;
-		}
 	},
 	extraReducers: {
 		[getAllBrands.fulfilled]: (state, action) => {
@@ -62,16 +64,15 @@ const slice = createSlice({
 			state.isShopLoading = false;
 		},
 		[getBasket.fulfilled]: (state, action) => {
-			state.basket = action.payload;
+			const {basket_devices, ...basket} = action.payload
+			state.basket = basket;
+			state.basketDevices = basket_devices;
+
 		},
 		[getOneDevice.fulfilled]: (state, action) => {
 			state.currentDevice = action.payload;
-		},
-		[getAllBasketDevices.fulfilled]: (state, action) => {
-			state.basketDevices = action.payload;
 		}
 	}
 })
 
-export const { addInfoCount, removeInfoCount } = slice.actions;
 export default slice.reducer;

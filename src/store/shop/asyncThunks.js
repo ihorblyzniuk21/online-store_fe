@@ -122,9 +122,20 @@ export const getAllBasketDevices = createAsyncThunk(
 	"shop/getAllBasketDevices",
 	async (body, {rejectWithValue}) => {
 		try {
-			console.log("body", body)
 			const { data } = await api.getAllBasketDevices(body);
 			return data
+		} catch (e) {
+			return rejectWithValue(e)
+		}
+	}
+)
+
+export const deleteBasketDevice = createAsyncThunk(
+	"shop/deleteBasketDevice",
+	async (id , {rejectWithValue}) => {
+		try {
+			const { data } = await api.deleteBasketDevice(id);
+			return data;
 		} catch (e) {
 			return rejectWithValue(e)
 		}

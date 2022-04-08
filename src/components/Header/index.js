@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,7 +16,6 @@ import { styled } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../store/auth/asyncThunks"
-import { getAllBasketDevices, getBasket } from "../../store/shop/asyncThunks"
 
 
 const Header = () => {
@@ -26,11 +25,6 @@ const Header = () => {
 	const isAuth = useSelector(state => state.auth.isAuth);
 	const user = useSelector(state => state.auth.user);
 	const basketDevices = useSelector(state => state.shop.basketDevices)
-
-	useEffect(() => {
-		// dispatch(getAllBasketDevices(user?.basket.id));
-		dispatch(getBasket(user?.basket.id))
-	}, [user])
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);

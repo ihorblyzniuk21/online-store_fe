@@ -21,7 +21,6 @@ import DeviceItem from "../../components/DeviceItem"
 
 const ShopPage = () => {
 	const dispatch = useDispatch()
-	const isAuth = useSelector(state => state.auth.isAuth);
 	const devices = useSelector(state => state.shop.devices);
 	const [selectedType, setSelectedType] = useState(null);
 	const [selectedBrand, setSelectedBrand] = useState(null);

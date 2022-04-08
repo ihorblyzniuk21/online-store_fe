@@ -3,17 +3,15 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogContentText,
 	DialogTitle,
 	TextField,
 } from "@mui/material"
 import Button from "@mui/material/Button"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useFormik } from "formik"
-import { loginValidationSchema, typeBrandValidationSchema } from "../../../services/validations"
-import { login } from "../../../store/auth/asyncThunks"
+import { typeBrandValidationSchema } from "../../../services/validations"
 import { addType, getAllTypes } from "../../../store/shop/asyncThunks"
 
 const AddTypeModal = () => {
@@ -45,10 +43,6 @@ const AddTypeModal = () => {
 	const handleClose = () => {
 		navigate('/admin');
 	};
-
-	const onAddType = async () => {
-		console.log()
-	}
 
 	return (
 		<div>
